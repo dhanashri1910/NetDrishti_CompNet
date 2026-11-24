@@ -1,0 +1,90 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row g-3">
+
+    <div class="col-xl-5">
+
+        <div class="card-np p-3 mb-3">
+
+            <h2>Find Best Route</h2>
+
+            <p class="text-secondary small">
+                Select routers and discover the shortest available path
+                using the Dijkstra algorithm.
+            </p>
+
+            <label class="small mb-1">Network</label>
+
+            <select id="rSource" class="form-select form-select-sm mb-3">
+                <option value="demo">
+                    Demo network (A–F)
+                </option>
+
+                <option value="net">
+                    Current topology
+                </option>
+            </select>
+
+            <div class="row g-2 mb-3">
+
+                <div class="col-6">
+                    <label class="small mb-1">Starting router</label>
+                    <select id="rSrc" class="form-select form-select-sm"></select>
+                </div>
+
+                <div class="col-6">
+                    <label class="small mb-1">Destination router</label>
+                    <select id="rDst" class="form-select form-select-sm"></select>
+                </div>
+
+            </div>
+
+            <label class="small mb-2">
+                Simulate connection failure (optional)
+            </label>
+
+            <div id="rFail" class="d-flex flex-wrap gap-2 mb-3"></div>
+
+            <button class="btn btn-np btn-sm w-100" id="rGo">
+                <i class="fa-solid fa-route"></i>
+                Find Best Route
+            </button>
+
+        </div>
+
+        <div class="card-np p-3">
+
+            <h3 class="h5">Network Diagram</h3>
+
+            <p class="small text-secondary">
+                Blue-green highlights show the recommended route.
+                Red dashed lines indicate failed connections.
+            </p>
+
+            <div id="rCy" class="cy-box" style="height:340px"></div>
+
+        </div>
+
+    </div>
+
+    <div class="col-xl-7">
+
+        <div id="rOut" class="text-secondary">
+            Select your starting and destination routers,
+            then click Find Best Route.
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/routing.js') }}"></script>
+
+{% endblock %}

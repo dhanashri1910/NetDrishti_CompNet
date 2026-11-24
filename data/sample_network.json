@@ -1,0 +1,225 @@
+{
+ "name": "Sample Campus Network",
+ "description": "4 PCs, 2 switches, 1 router, 1 server, VLAN 10 and VLAN 20",
+ "topology": {
+  "devices": [
+   {
+    "id": "pc1",
+    "name": "PC1",
+    "type": "pc",
+    "x": 80,
+    "y": 60,
+    "up": true,
+    "ifaces": [
+     {
+      "name": "eth0",
+      "ip": "192.168.10.10",
+      "mask": "255.255.255.0",
+      "vlan": 10,
+      "up": true
+     }
+    ],
+    "gateway": "192.168.10.1",
+    "dns": "192.168.20.100"
+   },
+   {
+    "id": "pc2",
+    "name": "PC2",
+    "type": "pc",
+    "x": 80,
+    "y": 260,
+    "up": true,
+    "ifaces": [
+     {
+      "name": "eth0",
+      "ip": "192.168.10.11",
+      "mask": "255.255.255.0",
+      "vlan": 10,
+      "up": true
+     }
+    ],
+    "gateway": "192.168.10.1",
+    "dns": "192.168.20.100"
+   },
+   {
+    "id": "sw1",
+    "name": "SW1",
+    "type": "switch",
+    "x": 260,
+    "y": 160,
+    "up": true,
+    "ifaces": [],
+    "vlans": [
+     10
+    ]
+   },
+   {
+    "id": "r1",
+    "name": "R1",
+    "type": "router",
+    "x": 440,
+    "y": 160,
+    "up": true,
+    "gateway": "",
+    "dns": "",
+    "ifaces": [
+     {
+      "name": "Gi0/0",
+      "ip": "192.168.10.1",
+      "mask": "255.255.255.0",
+      "vlan": 10,
+      "up": true
+     },
+     {
+      "name": "Gi0/1",
+      "ip": "192.168.20.1",
+      "mask": "255.255.255.0",
+      "vlan": 20,
+      "up": true
+     }
+    ],
+    "routes": [
+     {
+      "dest": "192.168.10.0/24",
+      "via": "connected",
+      "iface": "Gi0/0"
+     },
+     {
+      "dest": "192.168.20.0/24",
+      "via": "connected",
+      "iface": "Gi0/1"
+     }
+    ]
+   },
+   {
+    "id": "sw2",
+    "name": "SW2",
+    "type": "switch",
+    "x": 620,
+    "y": 160,
+    "up": true,
+    "ifaces": [],
+    "vlans": [
+     20
+    ]
+   },
+   {
+    "id": "pc3",
+    "name": "PC3",
+    "type": "pc",
+    "x": 800,
+    "y": 40,
+    "up": true,
+    "ifaces": [
+     {
+      "name": "eth0",
+      "ip": "192.168.20.10",
+      "mask": "255.255.255.0",
+      "vlan": 20,
+      "up": true
+     }
+    ],
+    "gateway": "192.168.20.1",
+    "dns": "192.168.20.100"
+   },
+   {
+    "id": "pc4",
+    "name": "PC4",
+    "type": "pc",
+    "x": 800,
+    "y": 160,
+    "up": true,
+    "ifaces": [
+     {
+      "name": "eth0",
+      "ip": "192.168.20.11",
+      "mask": "255.255.255.0",
+      "vlan": 20,
+      "up": true
+     }
+    ],
+    "gateway": "192.168.20.1",
+    "dns": "192.168.20.100"
+   },
+   {
+    "id": "srv1",
+    "name": "Server1",
+    "type": "server",
+    "x": 800,
+    "y": 280,
+    "up": true,
+    "ifaces": [
+     {
+      "name": "eth0",
+      "ip": "192.168.20.100",
+      "mask": "255.255.255.0",
+      "vlan": 20,
+      "up": true
+     }
+    ],
+    "gateway": "192.168.20.1",
+    "dns": "192.168.20.100",
+    "services": [
+     "dns",
+     "http"
+    ],
+    "records": {
+     "server.netdrishti.lab": "192.168.20.100",
+     "pc3.netdrishti.lab": "192.168.20.10",
+     "pc1.netdrishti.lab": "192.168.10.10"
+    }
+   }
+  ],
+  "links": [
+   {
+    "id": "l1",
+    "source": "pc1",
+    "target": "sw1",
+    "up": true,
+    "cost": 1
+   },
+   {
+    "id": "l2",
+    "source": "pc2",
+    "target": "sw1",
+    "up": true,
+    "cost": 1
+   },
+   {
+    "id": "l3",
+    "source": "sw1",
+    "target": "r1",
+    "up": true,
+    "cost": 1
+   },
+   {
+    "id": "l4",
+    "source": "r1",
+    "target": "sw2",
+    "up": true,
+    "cost": 1
+   },
+   {
+    "id": "l5",
+    "source": "sw2",
+    "target": "pc3",
+    "up": true,
+    "cost": 1
+   },
+   {
+    "id": "l6",
+    "source": "sw2",
+    "target": "pc4",
+    "up": true,
+    "cost": 1
+   },
+   {
+    "id": "l7",
+    "source": "sw2",
+    "target": "srv1",
+    "up": true,
+    "cost": 1
+   }
+  ]
+ }
+}

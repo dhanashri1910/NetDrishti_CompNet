@@ -1,0 +1,111 @@
+
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ title|default('NetDrishti') }}{% endblock %} · NetDrishti</title>
+<link href="{{ url_for('static', filename='vendor/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='vendor/fa/css/all.min.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/netdrishti.css') }}" rel="stylesheet">
+</head>
+
+<body data-page="{{ page|default('') }}">
+
+{% if current_user.is_authenticated %}
+<div class="np-shell">
+
+  <aside class="np-side" id="side">
+
+    <div class="np-brand">
+      <i class="fa-solid fa-wave-square"></i>
+      <span>NetDrishti</span>
+    </div>
+
+    <nav>
+      {% set nav = [
+        ('dashboard','fa-gauge-high','Dashboard'),
+        ('topology','fa-diagram-project','Topology'),
+        ('faults','fa-triangle-exclamation','Fault Lab'),
+        ('routing','fa-route','Routing'),
+        ('tools','fa-calculator','Subnet · TCP · UDP'),
+        ('reports','fa-file-lines','Reports')
+      ] %}
+
+      {% for ep, icon, label in nav %}
+      <a href="{{ url_for('views.'+ep) }}"
+         class="{{ 'active' if page==ep else '' }}">
+        <i class="fa-solid {{ icon }}"></i>{{ label }}
+      </a>
+      {% endfor %}
+
+      {% if current_user.is_admin %}
+      <a href="{{ url_for('views.admin_users') }}"
+         class="{{ 'active' if page=='admin_users' else '' }}">
+        <i class="fa-solid fa-users"></i>
+        Admin · Users
+      </a>
+      {% endif %}
+    </nav>
+
+    <div class="np-user">
+      <div>
+        <b>{{ current_user.full_name }}</b>
+        <small>{{ current_user.email }}</small>
+      </div>
+      <a href="{{ url_for('auth.logout') }}" title="Sign out">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </a>
+    </div>
+
+  </aside>
+
+  <main class="np-main">
+
+    <header class="np-top">
+      <button class="btn btn-sm btn-outline-secondary d-lg-none"
+              onclick="document.getElementById('side').classList.toggle('open')">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <h1>{{ title }}</h1>
+
+      <div class="ms-auto d-flex gap-2 align-items-center">
+        <span class="text-secondary small d-none d-md-inline">Network</span>
+        <select id="netSelect" class="form-select form-select-sm"
+                style="width:220px"></select>
+      </div>
+    </header>
+
+    <div class="np-content">
+      {% with msgs = get_flashed_messages(with_categories=true) %}
+        {% for c, m in msgs %}
+          <div class="alert alert-{{ c }} py-2">{{ m }}</div>
+        {% endfor %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+
+  </main>
+</div>
+
+<div id="toasts" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+<script src="{{ url_for('static', filename='vendor/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/cytoscape.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/chart.umd.js') }}"></script>
+<script src="{{ url_for('static', filename='js/core.js') }}"></script>
+
+{% block scripts %}{% endblock %}
+
+{% else %}
+
+<div class="auth-wrap">
+  {% block auth %}{% endblock %}
+</div>
+
+{% endif %}
+
+</body>
+</html>

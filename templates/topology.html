@@ -1,0 +1,35 @@
+{% extends "base.html" %}{% block content %}
+<div id="empty"></div>
+<div id="builder" class="d-none">
+<div class="row g-3">
+  <div class="col-xl-8">
+    <div class="card-np mb-3 d-flex flex-wrap gap-2 align-items-center">
+      <button class="btn btn-sm btn-outline-info" data-add="pc"><i class="fa-solid fa-desktop"></i> PC</button>
+      <button class="btn btn-sm btn-outline-info" data-add="switch"><i class="fa-solid fa-network-wired"></i> Switch</button>
+      <button class="btn btn-sm btn-outline-info" data-add="router"><i class="fa-solid fa-route"></i> Router</button>
+      <button class="btn btn-sm btn-outline-info" data-add="server"><i class="fa-solid fa-server"></i> Server</button>
+      <span class="vr"></span>
+      <button class="btn btn-sm btn-outline-secondary tool-btn" id="btnConnect"><i class="fa-solid fa-link"></i> Connect mode</button>
+      <button class="btn btn-sm btn-outline-secondary" id="btnLinkSel" title="Select exactly two devices (Shift+click)"><i class="fa-solid fa-plug"></i> Link selected</button>
+      <button class="btn btn-sm btn-outline-danger" id="btnDelete"><i class="fa-solid fa-trash"></i> Delete</button>
+      <span class="ms-auto"></span>
+      <button class="btn btn-sm btn-np" id="btnSave"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+      <button class="btn btn-sm btn-outline-secondary" id="btnBaseline" title="Remember this topology as the healthy baseline">Set baseline</button>
+      <button class="btn btn-sm btn-outline-secondary" id="btnNew">New</button>
+      <button class="btn btn-sm btn-outline-secondary" onclick="NP.loadSample()">Load sample</button>
+    </div>
+    <div id="cy" class="cy-box"></div>
+    <div class="small text-secondary mt-2" id="hint">Drag devices to move them. Connect mode: click a device, then a second device to create a link. Shift+click selects several.</div>
+  </div>
+  <div class="col-xl-4">
+    <div class="card-np mb-3"><h2>Properties</h2><div id="props" class="small text-secondary">Select a device or link.</div></div>
+    <div class="card-np"><h2>Simulated ping <span class="sim-tag">simulated packet</span></h2>
+      <div class="row g-2 mb-2"><div class="col-5"><select id="pSrc" class="form-select form-select-sm"></select></div>
+      <div class="col-7"><input id="pDst" class="form-control form-control-sm" placeholder="IP or hostname"></div></div>
+      <button class="btn btn-sm btn-np w-100" id="btnPing">Send simulated ping</button>
+      <div id="pRes" class="log mt-2 d-none"></div>
+      <p class="small text-secondary mt-2 mb-0">The packet shown is an animation of the internal simulator, not real network traffic.</p></div>
+  </div>
+</div></div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/topology.js') }}"></script>{% endblock %}

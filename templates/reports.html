@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="reportEmpty"></div>
+<div id="reportPanel" class="d-none">
+  <div class="row g-3 mb-3">
+    <div class="col-md-4"><div class="card-np kpi"><span class="v" id="reportDevices">0</span><span class="l">Devices in topology</span></div></div>
+    <div class="col-md-4"><div class="card-np kpi"><span class="v" id="reportLinks">0</span><span class="l">Network connections</span></div></div>
+    <div class="col-md-4"><div class="card-np kpi"><span class="v" id="reportHealth">0%</span><span class="l">Current simulated health</span></div></div>
+  </div>
+  <div class="card-np">
+    <h2>Complete Network Topology Report</h2>
+    <p class="text-secondary">Generate a PDF for the selected network. It includes the full device inventory, interfaces, IP addresses, subnet masks, VLANs, gateways, DNS settings, routes, services, every connection and link cost, connectivity results, detected faults, diagnoses and repair history.</p>
+    <div class="mb-3"><span class="text-secondary small">Selected network</span><div class="fw-semibold" id="reportNetworkName">—</div></div>
+    <a class="btn btn-np" id="reportDownload" href="#"><i class="fa-solid fa-file-pdf me-1"></i> Generate complete topology PDF</a>
+    <p class="small text-secondary mt-3 mb-0">The report describes the topology currently saved in NetDrishti. Connectivity and health figures are produced by the built-in simulator and are labelled as simulated.</p>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(async function () {
+  const id = await window.NP_READY;
+  const empty = document.getElementById('reportEmpty');
+  if (!id) {
+    NP.emptyState(empty);
+    return;
+  }
+  try {
+    const [network, matrix] = await Promise.all([
+      NP.api('/api/networks/' + id),
+      NP.api('/api/networks/' + id + '/matrix')
+    ]);
+    const devices = network.topology.devices || [];
+    const links = network.topology.links || [];
+    document.getElementById('reportPanel').classList.remove('d-none');
+    document.getElementById('reportNetworkName').textContent = network.name;
+    document.getElementById('reportDevices').textContent = devices.length;
+    document.getElementById('reportLinks').textContent = links.length;
+    document.getElementById('reportHealth').textContent = matrix.health + '%';
+    document.getElementById('reportDownload').href = '/api/report/network/' + id;
+  } catch (error) {
+    empty.innerHTML = '<div class="alert alert-danger">' + NP.esc(error.message) + '</div>';
+  }
+})();
+</script>
+{% endblock %}

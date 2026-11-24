@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block content %}
+<div id="empty"></div>
+<div id="lab" class="d-none">
+<div class="card-np mb-3"><div id="steps" class="d-flex flex-wrap gap-2"></div></div>
+<div class="row g-3">
+  <div class="col-xl-6">
+    <div id="cy" class="cy-box" style="height:400px"></div>
+    <div class="card-np mt-3"><h2>Quick demo scenarios</h2><div id="scen" class="d-flex flex-wrap gap-2"></div></div>
+  </div>
+  <div class="col-xl-6">
+    <div class="card-np mb-3"><h2>1 · Inject a fault <span class="sim-tag">simulator only</span></h2>
+      <div class="row g-2"><div class="col-md-6"><select id="fCode" class="form-select form-select-sm"></select></div>
+      <div class="col-md-6"><select id="fDev" class="form-select form-select-sm"></select></div></div>
+      <div class="d-flex gap-2 mt-2 flex-wrap"><button class="btn btn-sm btn-danger" id="bInject"><i class="fa-solid fa-bolt"></i> Inject fault</button>
+      <button class="btn btn-sm btn-np" id="bDetect"><i class="fa-solid fa-magnifying-glass"></i> Run detection</button>
+      <button class="btn btn-sm btn-outline-secondary" id="bReset"><i class="fa-solid fa-rotate-left"></i> Reset to baseline</button>
+      <label class="small ms-auto align-self-center"><input type="checkbox" id="useAi"> AI explanation (optional)</label></div></div>
+    <div id="faults"></div>
+  </div>
+</div>
+<div class="card-np mt-3 d-none" id="recWrap"><h2>Recovery reports (before / after)</h2><div id="rec"></div></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/faults.js') }}"></script>{% endblock %}

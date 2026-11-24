@@ -1,0 +1,74 @@
+
+{% extends "base.html" %}
+
+{% block title %}User Management{% endblock %}
+
+{% block content %}
+
+<div class="card-np mb-3">
+    <h2>Registered Users</h2>
+    <p class="text-secondary">
+        View registered NetDrishti accounts.
+        This page is read-only.
+    </p>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="p-3 rounded"
+                 style="background:var(--panel)">
+                <h2>{{ total_users }}</h2>
+                <span class="text-secondary">
+                    Total registered users
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card-np">
+    <h2>User Details</h2>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Account Created</th>
+                    <th>Role</th>
+                    <th>Networks</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {{ user.created.strftime('%d-%m-%Y') }}
+                    </td>
+                    <td>
+                        {% if user.is_admin %}
+                            <span class="chip">Admin</span>
+                        {% else %}
+                            <span class="chip">User</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ user.networks }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center">
+                        No registered users found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

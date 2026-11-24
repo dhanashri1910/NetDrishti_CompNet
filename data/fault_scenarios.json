@@ -1,0 +1,42 @@
+[
+ {
+  "code": "F01",
+  "device": "pc1",
+  "title": "PC1 gets an IP in the wrong subnet"
+ },
+ {
+  "code": "F02",
+  "device": "pc2",
+  "title": "PC2 points at a gateway that is not the router"
+ },
+ {
+  "code": "F03",
+  "device": "pc3",
+  "title": "PC3 interface is shut down"
+ },
+ {
+  "code": "F04",
+  "device": "srv1",
+  "title": "Cable to Server1 is cut"
+ },
+ {
+  "code": "F05",
+  "device": "pc4",
+  "title": "PC4 steals PC3's IP address"
+ },
+ {
+  "code": "F06",
+  "device": "pc2",
+  "title": "PC2 placed in VLAN 99"
+ },
+ {
+  "code": "F07",
+  "device": "r1",
+  "title": "R1 loses a connected route"
+ },
+ {
+  "code": "F08",
+  "device": "pc1",
+  "title": "PC1 uses a wrong DNS server"
+ }
+]
